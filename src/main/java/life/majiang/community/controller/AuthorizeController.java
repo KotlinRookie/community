@@ -1,5 +1,7 @@
 package life.majiang.community.controller;
 
+import life.majiang.community.mapper.UserMapper;
+import life.majiang.community.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import life.majiang.community.dto.GithubUser;
 import life.majiang.community.provider.GithubProvider;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
@@ -24,6 +27,8 @@ public class AuthorizeController {
 	private String clientSecret;
 	@Value("${github.redirect.uri}")
 	private String redirectUri;
+	@Autowired
+	private UserMapper userMapper;
 	
 	@GetMapping("/callback")
 	public String claaback(@RequestParam(name="code") String code,
@@ -36,10 +41,18 @@ public class AuthorizeController {
 		accessTokenDTO.setRedirect_uri(redirectUri);
 		
 		String accessToken = githubProvider.getAccessToken(accessTokenDTO);
-		GithubUser user = githubProvider.getUser(accessToken);
-		if(user != null){
+		GithubUser githubUser = githubProvider.getUser(accessToken);
+		if(githubUser != null){
+			User user = new User();
+			user.setToken(UUID.randomUUID().toString());
+			user.setName(githubUser.getName());
+			user.setAccountId(String.valueOf(githubUser.getId()));
+			user.setGmtCreate(System.currentTimeMillis());
+			user.setGmtModified(user.getGmtCreate());
+			userMapper.insert(user);
+
 			//登录成功，写Cookie和Session
-			request.getSession().setAttribute("user",user);
+			request.getSession().setAttribute("user",githubUser);
 			return "redirect:/";
 		}else {
 			//登录失败，重新登录
