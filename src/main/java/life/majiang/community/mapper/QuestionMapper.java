@@ -19,6 +19,10 @@ public interface QuestionMapper {
     
     @Select("SELECT COUNT(1) FROM question")
     Integer count();
+
+    @Select("SELECT * FROM question WHERE creator=#{userId} LIMIT #{offset},#{size}")
+	List<Question> listByUserId(@Param("userId")Integer userId, @Param(value = "offset")Integer offset,@Param(value = "size") Integer size);
+
+    @Select("SELECT COUNT(1) FROM question WHERE creator=#{userId}")
+	Integer countByUserId(@Param("userId")Integer userId);
 }
-
-
