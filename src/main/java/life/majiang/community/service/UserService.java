@@ -18,7 +18,7 @@ public class UserService {
 			// 查看AccountId在数据库中有没有，如果有就做插入操作
 			user.setGmtCreate(System.currentTimeMillis());
 			user.setGmtModified(user.getGmtCreate());
-			userMapper.insert(dbUser);
+			userMapper.insert(user);
 		}else {
 			// 如果AccountId在数据库中没有，就做更新操作
 			dbUser.setGmtModified(System.currentTimeMillis());

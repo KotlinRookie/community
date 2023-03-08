@@ -92,4 +92,16 @@ public class QuestionService {
 		return questionDTO;
 	}
 
+	public void createOrUpdate(Question question) {
+		if(question.getId() == null) {
+			// 如果为null，说明是第一次创建提问
+	        question.setGmtCreate(System.currentTimeMillis());
+	        question.setGmtModified(question.getGmtCreate());
+			questionMapper.create(question);
+		}else {
+			// 如果不是，则更新
+	        question.setGmtModified(System.currentTimeMillis());
+			questionMapper.update(question);
+		}
+	}
 }

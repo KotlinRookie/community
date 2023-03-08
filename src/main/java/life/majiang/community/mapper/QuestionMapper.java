@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface QuestionMapper {
@@ -29,4 +30,6 @@ public interface QuestionMapper {
     @Select("SELECT * FROM question WHERE id=#{id}")    
 	Question getById(@Param("id") Integer id);
 
+    @Update("UPDATE question SET title=#{title},description=#{description},tag=#{tag},gmt_modified=#{gmtModified} WHERE id=#{id}") 
+	void update(Question question);
 }
