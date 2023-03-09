@@ -20,15 +20,20 @@
       <property name="trimStrings" value="true" />
     </javaModelGenerator>
 
-    <sqlMapGenerator targetPackage="mapper"  targetProject="src\main\resources">
+    <sqlMapGenerator targetPackage="mapper" targetProject="src\main/resources">
       <property name="enableSubPackages" value="true" />
+      <property name="fileName" value="Mapper.xml" />
+      <property name="overwrite" value="true"/>
     </sqlMapGenerator>
 
-    <javaClientGenerator type="XMLMAPPER" targetPackage="life.majiang.community.mapper"  targetProject="src\main\java">
+    <javaClientGenerator type="XMLMAPPER" targetPackage="life.majiang.community.mapper" targetProject="src\main/java">
       <property name="enableSubPackages" value="true" />
+      <property name="fileName" value="Mapper.java" />
+      <property name="overwrite" value="true"/>
     </javaClientGenerator>
 
-    <table schema="DB2ADMIN" tableName="user" domainObjectName="User" >
+    <table tableName="user" domainObjectName="User" >
+      <generatedKey column="id" sqlStatement="Mysql" identity="true" />
    </table>
   </context>
 </generatorConfiguration>

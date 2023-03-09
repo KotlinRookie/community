@@ -39,7 +39,7 @@ public class QuestionService {
 		List<QuestionDTO> questionDTOList = new ArrayList<>();
 		
 		for (Question question : questions) {
-			User user = userMapper.finById(question.getCreator());
+			User user = userMapper.selectByPrimaryKey(question.getCreator());
 			QuestionDTO questionDTO = new QuestionDTO();
 			
 			//使用BeanUtils.copyProperties，快速把question的属性拷贝到questionDTO中
@@ -70,7 +70,7 @@ public class QuestionService {
 		List<QuestionDTO> questionDTOList = new ArrayList<>();
 		
 		for (Question question : questions) {
-			User user = userMapper.finById(question.getCreator());
+			User user = userMapper.selectByPrimaryKey(question.getCreator());
 			QuestionDTO questionDTO = new QuestionDTO();
 			
 			//使用BeanUtils.copyProperties，快速把question的属性拷贝到questionDTO中
@@ -87,7 +87,7 @@ public class QuestionService {
 		Question question = questionMapper.getById(id);
 		QuestionDTO questionDTO = new QuestionDTO();
 		BeanUtils.copyProperties(question, questionDTO);
-		User user = userMapper.finById(question.getCreator());
+		User user = userMapper.selectByPrimaryKey(question.getCreator());
 		questionDTO.setUser(user);
 		return questionDTO;
 	}
