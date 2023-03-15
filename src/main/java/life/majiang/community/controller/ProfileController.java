@@ -18,29 +18,26 @@ public class ProfileController {
 
 	@Autowired
 	private QuestionService questionService;
-	
+
 	@GetMapping("/profile/{action}")
-	public String profile(
-			@PathVariable(name = "action")String action,
-			HttpServletRequest request,
-			Model model,
-			@RequestParam(name = "page",defaultValue = "1")Integer page,
-			@RequestParam(name = "size",defaultValue = "5")Integer size) {		
-		
-		User user = (User)request.getSession().getAttribute("user");
-		if(user == null) {
+	public String profile(@PathVariable(name = "action") String action, HttpServletRequest request, Model model,
+			@RequestParam(name = "page", defaultValue = "1") Integer page,
+			@RequestParam(name = "size", defaultValue = "5") Integer size) {
+
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null) {
 			return "redirect:/";
 		}
 
-		if("questions".equals(action)) {
-			model.addAttribute("section","questions");
-			model.addAttribute("sectionName","我的提问 ");
-		}else if("replies".equals(action)) {
-			model.addAttribute("section","replies");
-			model.addAttribute("sectionName","我的回复");
+		if ("questions".equals(action)) {
+			model.addAttribute("section", "questions");
+			model.addAttribute("sectionName", "我的提问 ");
+		} else if ("replies".equals(action)) {
+			model.addAttribute("section", "replies");
+			model.addAttribute("sectionName", "我的回复");
 		}
-		PaginationDTO paginationDTO = questionService.list(user.getId(),page,size);
-		model.addAttribute("pagination",paginationDTO);
+		PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
+		model.addAttribute("pagination", paginationDTO);
 		return "profile";
 	}
 }
