@@ -15,7 +15,7 @@ import com.alibaba.fastjson.JSON;
 
 import life.majiang.community.dto.ResultDTO;
 import life.majiang.community.exception.CustomizeErrorCode;
-import life.majiang.community.exception.CustomizeExeption;
+import life.majiang.community.exception.CustomizeException;
 
 /*
  * 定制异常处理
@@ -29,8 +29,8 @@ public class CustomizeExceptionHandler {
 		if ("application/json".equals(contentType)) {
 			ResultDTO resultDTO = null;
 			// 返回json
-			if (e instanceof CustomizeExeption) {
-				resultDTO = ResultDTO.errorOf((CustomizeExeption) e);
+			if (e instanceof CustomizeException) {
+				resultDTO = ResultDTO.errorOf((CustomizeException) e);
 			} else {
 				resultDTO = ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
 			}
@@ -47,7 +47,7 @@ public class CustomizeExceptionHandler {
 			return null;
 		} else {
 			// 错误页面跳转
-			if (e instanceof CustomizeExeption) {
+			if (e instanceof CustomizeException) {
 				model.addAttribute("message", e.getMessage());
 			} else {
 				model.addAttribute("message", CustomizeErrorCode.SYS_ERROR.getMessage());

@@ -1,11 +1,11 @@
 package life.majiang.community.exception;
 
-public class CustomizeExeption extends RuntimeException {
+public class CustomizeException extends RuntimeException {
 
 	private String message;
 	private Integer code;
 
-	public CustomizeExeption(ICustomizeErrorCode errorCode) {
+	public CustomizeException(ICustomizeErrorCode errorCode) {
 		this.code = errorCode.getCode();
 		this.message = errorCode.getMessage();
 	}

@@ -1,7 +1,5 @@
 package life.majiang.community.controller;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import life.majiang.community.dto.CommentDTO;
 import life.majiang.community.dto.ResultDTO;
 import life.majiang.community.exception.CustomizeErrorCode;
-import life.majiang.community.exception.CustomizeExeption;
-import life.majiang.community.exception.ICustomizeErrorCode;
 import life.majiang.community.model.Comment;
 import life.majiang.community.model.User;
 import life.majiang.community.service.CommentService;

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import life.majiang.community.dto.PaginationDTO;
 import life.majiang.community.dto.QuestionDTO;
 import life.majiang.community.exception.CustomizeErrorCode;
-import life.majiang.community.exception.CustomizeExeption;
+import life.majiang.community.exception.CustomizeException;
 import life.majiang.community.mapper.QuestionExtMapper;
 import life.majiang.community.mapper.QuestionMapper;
 import life.majiang.community.mapper.UserMapper;
@@ -103,7 +103,7 @@ public class QuestionService {
 	public QuestionDTO getById(Integer id) {
 		Question question = questionMapper.selectByPrimaryKey(id);
 		if (question == null) {
-			throw new CustomizeExeption(CustomizeErrorCode.QUESTION_NOT_FOUND);
+			throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
 		}
 		QuestionDTO questionDTO = new QuestionDTO();
 		BeanUtils.copyProperties(question, questionDTO);
@@ -117,6 +117,9 @@ public class QuestionService {
 			// 如果为null，说明是第一次创建提问
 			question.setGmtCreate(System.currentTimeMillis());
 			question.setGmtModified(question.getGmtCreate());
+			question.setViewCount(0);
+			question.setLikeCount(0);
+			question.setCommentCount(0);
 			questionMapper.insert(question);
 		} else {
 			// 如果不是，则更新
@@ -129,7 +132,7 @@ public class QuestionService {
 			example.createCriteria().andIdEqualTo(question.getId());
 			int updated = questionMapper.updateByExampleSelective(updateQuestion, example);
 			if (updated != 1) {
-				throw new CustomizeExeption(CustomizeErrorCode.QUESTION_NOT_FOUND);
+				throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
 			}
 		}
 	}
