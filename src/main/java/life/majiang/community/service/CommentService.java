@@ -68,12 +68,12 @@ public class CommentService {
 		}
 	}
 
-	public List<CommentDTO> listByQuestionId(Integer id) {
+	public List<CommentDTO> listByTargetId(Integer id,CommentTypeEnum type) {
 		// 根据id和问题类型来查询对应的评论列表
 		CommentExample commentExample = new CommentExample();
 		commentExample.createCriteria()
 				.andParentIdEqualTo(id)
-				.andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+				.andTypeEqualTo(type.getType());
 		List<Comment> comments = commentMapper.selectByExample(commentExample);
 		
 		// 没有查询到，返回一个空的List，表示该问题没有任何评论

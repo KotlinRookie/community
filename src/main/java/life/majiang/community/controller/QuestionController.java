@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import life.majiang.community.dto.CommentDTO;
 import life.majiang.community.dto.QuestionDTO;
+import life.majiang.community.enums.CommentTypeEnum;
 import life.majiang.community.service.CommentService;
 import life.majiang.community.service.QuestionService;
 
@@ -26,7 +27,7 @@ public class QuestionController {
 	@GetMapping("/question/{id}")
 	public String question(@PathVariable(name = "id") Integer id, Model model) {
 		QuestionDTO questionDTO = questionService.getById(id);
-		List<CommentDTO> comments = commentService.listByQuestionId(id);
+		List<CommentDTO> comments = commentService.listByTargetId(id,CommentTypeEnum.QUESTION);
 		
 		//累加阅读数
 		questionService.incView(id);
