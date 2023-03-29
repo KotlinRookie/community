@@ -75,28 +75,35 @@ function collapseComments(e) {
 		} else {
 			$.getJSON("/comment/" + id, function(data) {
 				$.each(data.data.reverse(), function(index, comment) {
-					
-					var avatarElement = $("<img/>",{
-						"class":"media-object img-rounded",
-						"src":comment.user.avatarUrl
-					});
-					
-					var mediaLeftElement = $("<div/>",{
-						"class":"midia-left"
-					});
-					
-					mediaLeftElement.append(avatarElement);
-					
-					var mediaElement = $("<div/>",{
-						"class":"media" 
-					});
-					mediaElement.append(mediaLeftElement);
-					
+					var mediaLeftElement = $("<div/>", {
+						"class": "midia-left"
+					}).append($("<img/>", {
+						"class": "media-object img-rounded",
+						"src": comment.user.avatarUrl
+					}));
+
+					var mediaBodyElement = $("<div/>", {
+						"class": "media-body"
+					}).append($("<h5/>", {
+						"class": "media-heading",
+						"html": comment.user.name
+					})).append($("<div/>", {
+						"html": comment.content
+					})).append($("<div/>", {
+						"class": "menu"
+					}).append($("<span/>", {
+						"class": "pull-right",
+						"html": moment(comment.gmtCreate).format('YYYY-MM-DD')
+					})));
+
+					var mediaElement = $("<div/>", {
+						"class": "media"
+					}).append(mediaLeftElement).append(mediaBodyElement);
+
 					var commentElement = $("<div/>", {
-						"class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
-						html: comment.content
-					});
-					commentElement.append(mediaElement);
+						"class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 comments"
+					}).append(mediaElement);
+
 					subCommentContainer.prepend(commentElement);
 				});
 

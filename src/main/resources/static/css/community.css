@@ -35,6 +35,10 @@ body {
 	margin-top: 25px;
 }
 
+.question-tag{
+	margin-right: 5px;
+}
+
 .community-menu {
 	display: block;
 	color: #999;
@@ -86,6 +90,14 @@ body {
 	margin-right: 6px;
 	font-size: 15px;
 	cursor: pointer;
+}
+.menu .comment-icon{
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.menu .comment-icon :hover{
+	color: #499ef3;
 }
 
 .menu .active {

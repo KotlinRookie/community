@@ -16,6 +16,7 @@ import life.majiang.community.dto.CommentDTO;
 import life.majiang.community.enums.CommentTypeEnum;
 import life.majiang.community.exception.CustomizeErrorCode;
 import life.majiang.community.exception.CustomizeException;
+import life.majiang.community.mapper.CommentExtMapper;
 import life.majiang.community.mapper.CommentMapper;
 import life.majiang.community.mapper.QuestionExtMapper;
 import life.majiang.community.mapper.QuestionMapper;
@@ -36,6 +37,8 @@ public class CommentService {
 	private QuestionExtMapper questionExtMapper;
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private CommentExtMapper commentExtMapper;
 
 	// @Transactional 事务回滚，方法体中如果有一个失败的情况下，方法体中完成的操作全部取消
 	@Transactional
@@ -54,8 +57,13 @@ public class CommentService {
 			if (dbComment == null) {
 				throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
 			}
-
 			commentMapper.insert(comment);
+			
+			//增加评论数
+			Comment parentComment = new Comment();
+			parentComment.setId(comment.getParentId());
+			parentComment.setCommentCount(1);
+			commentExtMapper.incCommentCount(parentComment);
 		} else {
 			// 回复问题
 			Question question = questionMapper.selectByPrimaryKey(comment.getParentId());

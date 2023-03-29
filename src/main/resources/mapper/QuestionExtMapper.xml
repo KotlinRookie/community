@@ -37,4 +37,11 @@
 		#{commentCount,jdbcType=INTEGER}
 		where id = #{id}
 	</update>
+
+	<select id="selectRelated"
+		parameterType="life.majiang.community.model.Question"
+		resultMap="BaseResultMap">
+		select * from question WHERE id != #{id} AND tag REGEXP #{tag}
+	</select>
+
 </mapper>
