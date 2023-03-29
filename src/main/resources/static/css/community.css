@@ -39,11 +39,32 @@ body {
 	margin-right: 5px;
 }
 
+.question-related{
+	padding-left: 0px;
+    list-style: none;
+    margin-left: 0px;
+    font-size: 13px;
+    line-height: 23px;
+}
+
+.question-img{
+	width: 100%;
+}
+
 .community-menu {
 	display: block;
 	color: #999;
 	font-size: 13px;
 	margin-bottom: 15px;
+	position: relative;
+}
+
+.community-menu .glyphicon{
+	top: 0;
+	left: 0;
+	width: 40px;
+	height: 20px;
+	pointer-events: auto;
 }
 
 .jumbotron {
