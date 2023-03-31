@@ -51,12 +51,38 @@ body {
 	width: 100%;
 }
 
+.publish-tag-tab{
+	display: none;
+	margin-top: 10px;
+	padding-top: 10px;
+}
+
+.publish-tag-tab .tab-pane{
+	margin-top: 10px;
+}
+
+
+.publish-tag-tab .label-info{
+	margin-right: 10px;
+}
+
+.label {
+  display: inline-block;
+  margin-bottom: 5px;
+  white-space: normal;
+}
+
 .community-menu {
 	display: block;
 	color: #999;
 	font-size: 13px;
 	margin-bottom: 15px;
 	position: relative;
+}
+    
+    
+.glyphicon-tags:before {
+	margin-right: 10px;
 }
 
 .community-menu .glyphicon{

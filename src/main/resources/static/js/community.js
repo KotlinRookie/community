@@ -117,7 +117,9 @@ function collapseComments(e) {
 	}
 }
 
-function selectTag(value) {
+
+function selectTag(e) {
+	var value = e.getAttribute("data-tag")
 	var previous = $("#tag").val();
 	if (previous.indexOf(value) == -1) {
 		if (previous) {
@@ -127,6 +129,17 @@ function selectTag(value) {
 		}
 	}
 }
+
+
+//点击空白关闭弹窗
+$(document).mouseup(function(e) {
+    var container = $("#select-tag");// 设置目标区域
+    // 如果点击事件的目标不是弹出框或者弹出框内部的元素，则隐藏弹出框
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+        container.hide();
+    }
+});
+
 
 function showSelectTag() {
   $("#select-tag").show();
