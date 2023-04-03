@@ -14,15 +14,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import life.majiang.community.dto.CommentDTO;
 import life.majiang.community.enums.CommentTypeEnum;
+import life.majiang.community.enums.NotificationTypeEnum;
+import life.majiang.community.enums.NotificationStatusEnum;
 import life.majiang.community.exception.CustomizeErrorCode;
 import life.majiang.community.exception.CustomizeException;
 import life.majiang.community.mapper.CommentExtMapper;
 import life.majiang.community.mapper.CommentMapper;
+import life.majiang.community.mapper.NotificationMapper;
 import life.majiang.community.mapper.QuestionExtMapper;
 import life.majiang.community.mapper.QuestionMapper;
 import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.Comment;
 import life.majiang.community.model.CommentExample;
+import life.majiang.community.model.Notification;
 import life.majiang.community.model.Question;
 import life.majiang.community.model.User;
 import life.majiang.community.model.UserExample;
@@ -39,6 +43,8 @@ public class CommentService {
 	private UserMapper userMapper;
 	@Autowired
 	private CommentExtMapper commentExtMapper;
+	@Autowired
+	private NotificationMapper notificationMapper;
 
 	// @Transactional 事务回滚，方法体中如果有一个失败的情况下，方法体中完成的操作全部取消
 	@Transactional
@@ -64,6 +70,9 @@ public class CommentService {
 			parentComment.setId(comment.getParentId());
 			parentComment.setCommentCount(1);
 			commentExtMapper.incCommentCount(parentComment);
+			
+			//创建通知
+			createNotify(parentComment, dbComment.getCommentator(),NotificationTypeEnum.REPLY_COMMENT);
 		} else {
 			// 回复问题
 			Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
@@ -73,7 +82,22 @@ public class CommentService {
 			commentMapper.insert(comment);
 			question.setCommentCount(1);
 			questionExtMapper.incCommentCount(question);
+			
+			//创建通知
+			createNotify(comment, question.getCreator(),NotificationTypeEnum.REPLY_QUESTION);
 		}
+	}
+	
+	//创建通知的方法
+	private void createNotify(Comment comment,Integer reveiver,NotificationTypeEnum notificationType) {
+		Notification notification = new Notification();
+		notification.setGmtCreate(System.currentTimeMillis());
+		notification.setType(notificationType.getType());
+		notification.setOuterid(comment.getParentId());
+		notification.setNotifier(comment.getCommentator());
+		notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+		notification.setReceiver(reveiver);
+		notificationMapper.insert(notification);
 	}
 
 	public List<CommentDTO> listByTargetId(Integer id,CommentTypeEnum type) {
