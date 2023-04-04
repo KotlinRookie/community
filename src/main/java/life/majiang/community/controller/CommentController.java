@@ -48,13 +48,13 @@ public class CommentController {
 		comment.setGmtCreate(System.currentTimeMillis());
 		comment.setCommentator(user.getId());
 		comment.setLikeCount(0);
-		commentService.insert(comment);
+		commentService.insert(comment, user);
 		return ResultDTO.okOf();
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
-	public ResultDTO<List<CommentDTO >> comments(@PathVariable(name = "id") Integer id) {
+	public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") Integer id) {
 		List<CommentDTO> commentDTOs = commentService.listByTargetId(id, CommentTypeEnum.COMMENT);
 		return ResultDTO.okOf(commentDTOs);
 	}

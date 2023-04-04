@@ -62,24 +62,33 @@ public class QuestionService {
 			questionDTOList.add(questionDTO);
 		}
 
-		paginationDTO.setQuestions(questionDTOList);
+		paginationDTO.setData(questionDTOList);
 		return paginationDTO;
 	}
 
 	public PaginationDTO list(Integer userId, Integer page, Integer size) {
 		PaginationDTO paginationDTO = new PaginationDTO();
 
+		Integer totalPage;
+
 		QuestionExample questionExample = new QuestionExample();
 		questionExample.createCriteria().andCreatorEqualTo(userId);
 		Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
 
-		paginationDTO.setPagination(totalCount, page, size);
+		if (totalCount % size == 0) {
+			totalPage = totalCount / size;
+		} else {
+			totalPage = totalCount / size + 1;
+		}
+
 		if (page < 1) {
 			page = 1;
 		}
-		if (page > paginationDTO.getTotalPage()) {
-			page = paginationDTO.getTotalPage();
+		if (page > totalPage) {
+			page = totalPage;
 		}
+
+		paginationDTO.setPagination(totalCount, page, size);
 
 		// size*(page-1)
 		Integer offset = size * (page - 1);
@@ -100,7 +109,7 @@ public class QuestionService {
 			questionDTOList.add(questionDTO);
 		}
 
-		paginationDTO.setQuestions(questionDTOList);
+		paginationDTO.setData(questionDTOList);
 		return paginationDTO;
 	}
 
@@ -152,7 +161,7 @@ public class QuestionService {
 		if (StringUtils.isBlank(queryDTO.getTag())) {
 			return new ArrayList<>();
 		}
-		String[] tags = StringUtils.split(queryDTO.getTag(), ",");
+		String [] tags = StringUtils.split(queryDTO.getTag(), ",");
 		String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
 		Question question = new Question();
 		question.setId(queryDTO.getId());
