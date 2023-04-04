@@ -1,8 +1,12 @@
 package life.majiang.community.mapper;
 
 import java.util.List;
+
+import life.majiang.community.dto.NotificaitonDTO;
 import life.majiang.community.model.Notification;
 import life.majiang.community.model.NotificationExample;
+import life.majiang.community.model.User;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
@@ -102,4 +106,5 @@ public interface NotificationMapper {
      * @mbg.generated Tue Apr 04 13:56:23 JST 2023
      */
     int updateByPrimaryKey(Notification record);
+
 }

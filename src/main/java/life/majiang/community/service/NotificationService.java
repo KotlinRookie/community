@@ -3,6 +3,7 @@ package life.majiang.community.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import life.majiang.community.dto.NotificaitonDTO;
 import life.majiang.community.dto.PaginationDTO;
 import life.majiang.community.enums.NotificationTypeEnum;
+import life.majiang.community.exception.CustomizeErrorCode;
+import life.majiang.community.exception.CustomizeException;
 import life.majiang.community.mapper.NotificationMapper;
 import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.Notification;
@@ -94,6 +97,18 @@ public class NotificationService {
 		notificationExample.createCriteria().andReceiverEqualTo(userId);
 		return notificationMapper.countByExample(notificationExample);
 		
+	}
+
+	public NotificaitonDTO read(Integer id, User user) {
+		Notification notification = notificationMapper.selectByPrimaryKey(id);
+		// 如果登入用户信息不相等则抛出异常
+		if(notification == null) {
+			throw new CustomizeException(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);
+		}
+		if(!Objects.equals(notification.getReceiver(), user.getId())) {
+			throw new CustomizeException(CustomizeErrorCode.READ_NOTIFICATION_FAIL);
+		}
+		return null;
 	}
 
 }

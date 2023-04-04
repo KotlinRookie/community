@@ -76,7 +76,7 @@ public class CommentService {
 			commentExtMapper.incCommentCount(parentComment);
 
 			// 创建通知
-			createNotify(parentComment, dbComment.getCommentator(), commentator.getName(), question.getTitle(),
+			createNotify(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(),
 					NotificationTypeEnum.REPLY_COMMENT,question.getId());
 		} else {
 			// 回复问题

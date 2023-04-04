@@ -54,10 +54,11 @@
 					th:if="${section == 'replies'}">
 					<div class="media" th:each="notification : ${pagination.data}">
 						<div class="media-body">
-							<h5 class="media-heading">
+							<p class="media-heading">
+							<span th:text="${notification.notifierName + ' ' + notification.type + ' '}"></span>
 								<a th:href="@{/notification/{id}(id=${notification.id})}"
-									th:text="${notification.notifierName + ' ' + notification.type + ' ' + notification.outerTitle}"></a>
-							</h5>
+									th:text="${notification.outerTitle}"></a>
+							</p>
 						</div>
 					</div>
 				</div>
