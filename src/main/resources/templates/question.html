@@ -7,11 +7,15 @@
 <link rel="stylesheet" href="/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/css/bootstrap-theme.min.css" />
 <link rel="stylesheet" href="/css/community.css" />
+<link rel="stylesheet" href="/css/editormd.preview.min.css" />
 <!-- js -->
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 <script src="/js/comment.js" type="application/javascript"></script>
 <script src="/js/community.js" type="application/javascript"></script>
+<script src="/js/editormd.min.js" type="application/javascript"></script>
+<script src="/js/lib/marked.min.js"></script>
+<script src="/js/lib/prettify.min.js"></script>
 </head>
 <body>
 	<div th:insert="~{navigation :: nav}"></div>
@@ -33,10 +37,18 @@
 
 					<!-- 内容 -->
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-						th:text="${question.description}"></div>
-					<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						id="question-view">
+						<textarea style="display: none;" th:text="${question.description}"></textarea>
+					</div>
+
+					<script type="text/javascript">
+						$(function() {
+							editormd.markdownToHTML("question-view", {});
+						});
+					</script>
 
 					<!-- 标签 -->
+					<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<span class="label label-info question-tag"
 							th:each="tag : ${question.tag.split(',')}"> <span
@@ -59,7 +71,7 @@
 
 				<!-- 回复 -->
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<h4> 
+					<h4>
 						<span th:text="${question.commentCount}"></span> 个回复
 					</h4>
 					<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
@@ -151,7 +163,7 @@
 				<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<h4>图片</h4>
-					<img src="/img/dog.png" class="img-thumbnail question-img">
+					<img src="/images/dog.png" class="img-thumbnail question-img">
 				</div>
 
 				<!-- 相关问题 -->
