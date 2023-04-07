@@ -23,12 +23,13 @@ public class SessionInterceptor implements HandlerInterceptor {
 	private UserMapper userMapper;
 	@Autowired
 	private NotificationService notificationService;
-	
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		Cookie[] cookies = request.getCookies();
-		if (cookies != null && cookies.length != 0) 
+
+		if (cookies != null && cookies.length != 0)
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("token")) {
 					String token = cookie.getValue();
@@ -37,7 +38,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 					List<User> users = userMapper.selectByExample(userExample);
 					if (users.size() != 0) {
 						request.getSession().setAttribute("user", users.get(0));
-						//用户信息不等于0时，调用查询通知的方法
+						// 用户信息不等于0时，调用查询通知的方法
 						Integer unreadCount = notificationService.unreadCount(users.get(0).getId());
 						request.getSession().setAttribute("unreadCount", unreadCount);
 					}
